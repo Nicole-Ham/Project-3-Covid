@@ -21,6 +21,23 @@ data.then(function(case_data) {
   console.log(case_data);
 
   //--------------------------------
+  //--------- dropdown -------------
+  //--------------------------------
+
+  let county_arr = Object.values(case_data.county);
+  let counties = uniqueArray4(county_arr);
+  counties = counties.sort();
+  //console.log(counties);
+
+  let selector = d3.select("#selCounty");
+  for(let i =0; i < counties.length; i++) {
+        
+    selector.append("option").text(counties[i]).property("value", counties[i]);
+  }
+
+
+
+  //--------------------------------
   //--------- hosp scatter ---------
   //--------------------------------
 
@@ -64,10 +81,24 @@ data.then(function(case_data) {
       hosp_yes_2023[month_arr[i]] += 1;
     }
   };
-
   let hosp_yes_dict = {2020: hosp_yes_2020, 2021: hosp_yes_2021, 2022: hosp_yes_2022, 2023: hosp_yes_2023};
+  
   let hosp_scatter_data = [scatterTrace(Object.keys(hosp_yes_dict[2020]), Object.values(hosp_yes_dict[2020])), scatterTrace(Object.keys(hosp_yes_dict[2021]), Object.values(hosp_yes_dict[2021])) ]
-  Plotly.newPlot("hosp_scatter", hosp_scatter_data);
+  let scatter_layout = {
+  
+    autosize: false,
+    width: 500,
+    height: 500,
+    margin: {
+      l: 50,
+      r: 50,
+      b: 100,
+      t: 100,
+      pad: 4
+    }
+  };
+  
+  Plotly.newPlot("hosp_scatter", hosp_scatter_data, scatter_layout);
 
   //--------------------------------
   //--------- pie chart ------------
