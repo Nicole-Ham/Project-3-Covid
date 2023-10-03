@@ -14,7 +14,7 @@ import sqlite3 as sq
 # db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/data/CA_COVID_data.sqlite"
 # cs_engine = create_engine(cs_db)
 
-db = "sqlite:///Data/CA_COVID_data.sqlite" #use relative path instead
+db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/Data/CA_COVID_data.sqlite" #use relative path instead
 engine = create_engine(db)
 # inspector = inspect(engine)
 # print(inspector.get_table_names())
@@ -22,7 +22,7 @@ engine = create_engine(db)
 # reflect an existing database into a new model
 Base = automap_base()
 Base.prepare(autoload_with = engine)
-# print(Base.classes.keys())
+#print(Base.classes.keys())
 case_surv_data = Base.classes.case_surv
 #print(case_surv_data.__table__.columns.keys())
 
@@ -115,7 +115,7 @@ def index():
     return render_template('index.html')
 
 @app.route("/api/v1.0/vaccine_data")
-@cross_origin(origin='*')
+# @cross_origin(origin='*')
 def api_vaccine():
   
   
