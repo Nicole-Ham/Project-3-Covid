@@ -30,24 +30,28 @@ case_data.then(function(data) {
 
   console.log(data);
 
-  let all_dict = {};
-  for (row in data) {
+  // let data = {};
+  // //let keys_list = []
+  // for (row in json_data) {
 
-    let row_values = Object.values(data[row]);
-    let row_id = row_values.slice(0,1);
-    let row_data = row_values.slice(1,12);
-    all_dict[row_id] = row_data;
-  };
+  //   let row_values = Object.values(json_data[row]);
 
-  console.log(all_dict);
+  //   //let keys = Object.keys(data[row]);
+  //   //keys_list = [keys];
+  //   //let row_values = json_data[row];
+  //   //let row_id = row
+  //   //let row_data = row_values.slice(1,12);
+  //   //data[row_id] = row_values;
+  // };
 
-
+  // console.log(data);
 
   //--------------------------------
   //--------- dropdown -------------
   //--------------------------------
 
   let county_arr = Object.values(data.county);
+  console.log(county_arr);
   let counties = uniqueArray4(county_arr);
   counties = counties.sort();
 

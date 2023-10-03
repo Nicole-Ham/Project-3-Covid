@@ -60,23 +60,41 @@ def case_surv():
     # results = session.query(case_surv_data.county, case_surv_data.year).all()
 
     # Create a dictionary from the row data and append to a list of all_passengers
-    all_case_surv = []
+
+    counter = 0
+    county_dict = {}
+    year_dict = {}
+    month_dict = {}
+    age_group_dict = {}
+    sex_dict = {}
+    race_dict = {}
+    hosp_yn_dict = {}
+    death_yn_dict = {}
     for id, county, year, month, age_group, sex, race, ethnicity, hosp_yn, icu_yn, death_yn, underlying_conditions_yn in results:
         
-        case_surv_dict = {}
-        case_surv_dict["county"] = county 
-        case_surv_dict["year"] = year
-        case_surv_dict["month"] = month
-        case_surv_dict["age_group"] = age_group
-        case_surv_dict["sex"] = sex
-        case_surv_dict["race"] = race
-        case_surv_dict["ethnicity"] = ethnicity
-        case_surv_dict["hosp_yn"] = hosp_yn
-        case_surv_dict["icu_yn"] =  icu_yn
-        case_surv_dict["death_yn"] = death_yn
-        case_surv_dict["underlying_conditions_yn"] = underlying_conditions_yn
+        county_dict[counter] = county
+        year_dict[counter] = year
+        month_dict[counter] = month
+        age_group_dict[counter] = age_group
+        sex_dict[counter] = sex
+        race_dict[counter] = race
+        hosp_yn_dict[counter] = hosp_yn
+        death_yn_dict[counter] = death_yn
 
-        all_case_surv.append(case_surv_dict)
+        counter += 1
+
+    all_case_surv = {}
+    all_case_surv["county"] = county_dict 
+    all_case_surv["year"] = year_dict
+    all_case_surv["month"] = month_dict
+    all_case_surv["age_group"] = age_group_dict
+    all_case_surv["sex"] = sex_dict
+    all_case_surv["race"] = race_dict
+    #case_surv_dict["ethnicity"] = ethnicity
+    all_case_surv["hosp_yn"] = hosp_yn_dict
+    #case_surv_dict["icu_yn"] =  icu_yn
+    all_case_surv["death_yn"] = death_yn_dict
+    #case_surv_dict["underlying_conditions_yn"] = underlying_conditions_yn
 
     session.close()
 
