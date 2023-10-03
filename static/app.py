@@ -22,12 +22,12 @@ engine = create_engine(db)
 # reflect an existing database into a new model
 Base = automap_base()
 Base.prepare(autoload_with = engine)
-#print(Base.classes.keys())
+print(Base.classes.keys())
 case_surv_data = Base.classes.case_surv
 #print(case_surv_data.__table__.columns.keys())
 
 vaccine_data = Base.classes.vaccine_by_county
-# print(vaccine_data.__table__.columns.keys())
+print(vaccine_data.__table__.columns.keys())
 
 def get_all( json_str = False ):
     conn = sq.connect(db)
@@ -110,9 +110,9 @@ def case_surv():
   
 #   return jsonify({'success': 'ok'})
 
-@app.route("/")
-def index():
-    return render_template('index.html')
+# @app.route("/")
+# def index():
+#     return render_template('index.html')
 
 @app.route("/api/v1.0/vaccine_data")
 # @cross_origin(origin='*')
@@ -127,7 +127,7 @@ def api_vaccine():
     results = v_session.query(vaccine_data.county, vaccine_data.year, vaccine_data.month, vaccine_data.cumulative_total_doses, 
                             vaccine_data.cumulative_fully_vaccinated ,vaccine_data.cumulative_at_least_one_dose,
                             vaccine_data.cumulative_up_to_date_count).all()
-    print(results)
+    #print(results)
     # Create a dictionary from the row data and append to a list of all_passengers
     all_vaccine_data = []
     for county, year, month, cumulative_total_doses, cumulative_fully_vaccinated, cumulative_at_least_one_dose, cumulative_up_to_date_count in results:
