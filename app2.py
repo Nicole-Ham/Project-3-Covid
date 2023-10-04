@@ -15,7 +15,7 @@ import sqlite3 as sq
 #################################################
 app = Flask(__name__, template_folder='templates')
 
-db = "sqlite:////Users/adrianagalindo/Documents/Project3COVID/Project-3-Covid/CA_COVID_data.sqlite"
+db = "sqlite:////Users/adrianagalindo/Documents/Project3COVID/Project-3-Covid/Data/CA_COVID_data.sqlite"
 engine = create_engine(db)
 #inspector = inspect(engine)
 #print(inspector.get_table_names())
@@ -43,7 +43,7 @@ def get_all( json_str = False ):
 #
     return rows
 #
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='/Users/adrianagalindo/Documents/Project3COVID/Project-3-Covid')
 
 
 # routes
