@@ -9,12 +9,13 @@ import json
 import sqlite3 as sq
 
 
+
 #################################################
 # Database Setup
 #################################################
 app = Flask(__name__, template_folder='templates')
 
-db = "sqlite:////Users/adrianagalindo/Documents/Project3COVID/Project-3-Covid/DataCA_COVID_data.sqlite"
+db = "sqlite:////Users/adrianagalindo/Documents/Project3COVID/Project-3-Covid/CA_COVID_data.sqlite"
 engine = create_engine(db)
 #inspector = inspect(engine)
 #print(inspector.get_table_names())
@@ -25,14 +26,14 @@ Base.prepare(autoload_with = engine)
 
 # print(Base.classes.keys())
 vaccines_hpi_poverty_data = Base.classes.vaccines_hpi_poverty
-# print(vaccine_data.__table__.columns.keys())
+# print(vaccines_hpi_poverty.__table__.columns.keys())
 
 def get_all( json_str = False ):
     conn = sq.connect(db)
     conn.row_factory = sq.Row # This enables column access by name: row['column_name'] 
     db = conn.cursor()
 
-    rows = db.execute("SELECT * from vaccine_data").fetchall()
+    rows = db.execute("SELECT * from vaccines_hpi_poverty").fetchall()
 
     conn.commit()
     conn.close()
@@ -52,15 +53,15 @@ def login():
   
   return jsonify({'success': 'ok'})
 
-#@app.route("/")
-#def index():
-#    return render_template('index.html')
+@app.route("/")
+def index():
+    return render_template('index.html')
 
 
 
 @app.route('/api/vaccines_hpi_poverty')
 @cross_origin(origin='*')
-def vaccines_hpi_poverty_data():
+def get_vaccines_hpi_poverty_data():
     session = Session(engine)
 
     results = session.query(vaccines_hpi_poverty_data.date, 
