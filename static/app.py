@@ -104,6 +104,7 @@ def case_surv():
     cs_session.close()
 
     return jsonify(all_case_surv)
+
 # @app.route("/login")
 # @cross_origin(origin='*')
 # def login():
