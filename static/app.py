@@ -126,7 +126,7 @@ def case_surv():
 #     return render_template('index.html')
 
 @app.route("/api/v1.0/vaccine_data")
-# @cross_origin(origin='*')
+@cross_origin(origin='*')
 def api_vaccine():
   
   
