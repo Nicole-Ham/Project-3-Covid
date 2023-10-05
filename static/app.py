@@ -6,7 +6,6 @@ from flask import Flask, jsonify, render_template, url_for #urlfor ask flask to 
 from flask_cors import cross_origin
 import json
 import sqlite3 as sq
-from pathlib import Path
 import os
 
 
@@ -14,9 +13,19 @@ import os
 # Database Setup
 #################################################
 
-#engine = create_engine("sqlite:///../Data/CA_COVID_data.sqlite", echo=False)
-db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/Data/CA_COVID_data.sqlite" #use relative path instead
-engine = create_engine(db)
+# db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/Data/CA_COVID_data.sqlite" #use relative path instead
+# engine = create_engine(db)
+# inspector = inspect(engine)
+# print(inspector.get_table_names())
+
+#only works if you open the Project-3-Covid file in VSCode
+cwd = os.getcwd()
+sqlite_path = os.path.join(cwd, "Data/CA_COVID_data.sqlite")
+sqlite_path = f"sqlite:///{sqlite_path}"
+print(sqlite_path)
+
+#db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/Data/CA_COVID_data.sqlite" #use relative path instead
+engine = create_engine(sqlite_path)
 inspector = inspect(engine)
 #print(inspector.get_table_names())
 

@@ -9,6 +9,7 @@ function barTrace(x_vals, y_vals, year_val) {
     x: x_vals,
     y: y_vals,
     name: year_val,
+    name: year_val,
     type: "bar"
   };
 
@@ -69,6 +70,7 @@ case_data.then(function(data) {
 
   //--------------------------------
   //--------- Bar Plot Function ----
+  //--------- Bar Plot Function ----
   //--------------------------------
 
   function plotBar(outcome, type_arr, month_arr, year_arr, unique_months_arr) {
@@ -107,8 +109,10 @@ case_data.then(function(data) {
 
       autosize: false,
       width: 525,
+      width: 525,
       height: 500,
       margin: {
+      l: 75,
       l: 75,
       r: 50,
       b: 100,
@@ -116,9 +120,13 @@ case_data.then(function(data) {
       pad: 4
       }
     };
-  
+
     Plotly.newPlot("bar", type_bar_data, bar_layout);
   };
+
+  //--------------------------------
+  //--------- Starter Hosp Bar -----
+  //--------------------------------
 
   //--------------------------------
   //--------- Starter Hosp Bar -----
@@ -137,19 +145,18 @@ case_data.then(function(data) {
   //--------------------------------
   //--------- Pie Chart ------------
   //--------------------------------
+  //--------------------------------
+  //--------- Pie Chart ------------
+  //--------------------------------
 
-  //----------------------------------------------------------------------------
+  //------------------------
   //----- Update Page -----
-  //----------------------------------------------------------------------------
+  //------------------------
 
   d3.select("#selCounty").on("change", updateBar);
   d3.select("#selOutcome").on("change", updateBar);
   d3.select("#selType").on("change", updateBar);
   d3.select("#currSettings").on("change", updateBar);
-
-  // let curr_county_text = d3.select("#currSettings");
-  // curr_county_text.html(`&nbsp;&nbsp;&nbsp; <strong>Current County:</strong> ${selected_county}`);
-
 
   //----------------------------------------------------------------------------
   //----- Update Plots -----
@@ -170,13 +177,8 @@ case_data.then(function(data) {
     let outcome_dropdown = d3.select("#selOutcome");
     let selected_outcome = outcome_dropdown.property("value");
 
-    if (selected_county == "ALL COUNTIES") {
-
-      // if ()
-      plotBar(selected_outcome, all_hosp_arr, all_months_arr, all_years_arr, unique_months);
-    }
+    if (selected_county == "ALL COUNTIES") {plotBar(selected_outcome, all_hosp_arr, all_months_arr, all_years_arr, unique_months);}
     else {
-
       let curr_type_arr = [];
       let curr_months_arr = [];
       let curr_years_arr = [];
@@ -199,6 +201,10 @@ case_data.then(function(data) {
 
   };
 });
+
+
+
+
 
 
 
