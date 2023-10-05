@@ -6,18 +6,19 @@ from flask import Flask, jsonify, render_template, url_for #urlfor ask flask to 
 from flask_cors import cross_origin
 import json
 import sqlite3 as sq
+from pathlib import Path
+import os
 
 
 #################################################
 # Database Setup
 #################################################
-# db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/data/CA_COVID_data.sqlite"
-# cs_engine = create_engine(cs_db)
 
+#engine = create_engine("sqlite:///../Data/CA_COVID_data.sqlite", echo=False)
 db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/Data/CA_COVID_data.sqlite" #use relative path instead
 engine = create_engine(db)
-# inspector = inspect(engine)
-# print(inspector.get_table_names())
+inspector = inspect(engine)
+#print(inspector.get_table_names())
 
 # reflect an existing database into a new model
 Base = automap_base()
