@@ -11,7 +11,8 @@
   <title>COVID in California</title>
   
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/offcanvas-navbar/">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -153,7 +154,7 @@
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">COVID in California</a>
+    <a class="navbar-brand" href="#"> </a>
     <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -161,11 +162,11 @@
     <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Overview</a>
+          <a class="nav-link active" aria-current="page" href="#"><h4>Overview</h4></a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#">Cases & Vaccinations</a>
+          <a class="nav-link" href="#"><h4>Cases & Vaccinations</h4></a>
         </li>
 
         <!-- <li class="nav-item">
@@ -173,11 +174,11 @@
         </li> -->
 
         <li class="nav-item">
-          <a class="nav-link" href="#">Health</a>
+          <a class="nav-link" href="#"><h4>Health</h4></a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#">Migration</a>
+          <a class="nav-link" href="#"><h4>Migration</h4></a>
         </li>
 
         <!--<li class="nav-item dropdown">
@@ -213,23 +214,48 @@
     <a class="nav-link" href="#">Link</a>
   </nav>
 </div> -->
+<body>
 
-<p><div class="col-md-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>COVID in California</h1>
+        <!-- <p>Use the interactive charts below to explore the dataset</p> -->
+      </div>
+    </div>
 
-  <div id="curCounty">&nbsp;&nbsp;&nbsp; Current County: ALL COUNTIES </div>
-  </div></p>
-
-<p><div class="col-md-5">
+    <div class = "row">
+      <div class="col-md-2">
   <div class="well">
-    <a>&nbsp;&nbsp;&nbsp; Select County:<a>
+          <h5>Select County:</h5>
     <select id="selCounty"></select>
-  </div></p>
+        </div>
 
-<main class="container">
+        <div class="well">
+          <h5>Select Case Type:</h5>
+          <select id="selType"></select>
+        </div>
+
+        <div class="well">
+          <h5>Select Outcome:</h5>
+          <select id="selOutcome"></select>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h5 class="panel-title">Current Graph</h5>
+          </div>
+          <div id="currSettings" class="panel-body"></div>
+        </div>
+      </div>
+
 <div class="col-md-5">
-    <div id="hosp_bar"></div>
+        <div id="bar"></div>
+      </div>
+    </div>
   </div>
 
+</body>
   <!--<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
     <img class="me-3" src="website/assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38">
     <div class="lh-1">
