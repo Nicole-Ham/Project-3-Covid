@@ -214,6 +214,13 @@
   </nav>
 </div> -->
 
+<div class="container">
+  <!-- Add the ZIP code search input and button here -->
+  <div class="zip-code-search">
+      <input type="text" id="zipCodeInput" placeholder="Enter ZIP code">
+      <button id="submitButton">Search</button>
+  </div>
+
 <p><div class="col-md-5">
 
   <div id="curCounty">&nbsp;&nbsp;&nbsp; Current County: ALL COUNTIES </div>
@@ -229,6 +236,11 @@
 <div class="col-md-5">
     <div id="hosp_bar"></div>
   </div>
+
+  <div class="col-md-5">
+    <div id="chartDiv"></div>
+</div>
+
 
   <!--<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
     <img class="me-3" src="website/assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38">
@@ -313,6 +325,34 @@
   <script src="static/js/offcanvas-navbar.js"></script></body>
 
   <!--<script src="website/js/require.js"></script>-->
-  <script src="static/js/app.js"></script>
+  <!--<script src="static/js/app.js"></script>-->
   <script src="static/js/app2.js"></script>
+  <!-- Add this JavaScript code at the end of your HTML, before </body> -->
+<script>
+  // Get the input field and a submit button
+  const zipCodeInput = document.getElementById('zipCodeInput');
+  const submitButton = document.getElementById('submitButton');
+
+  // Add an event listener to the submit button
+  submitButton.addEventListener('click', function () {
+      // Get the user's input
+      const zipCode = zipCodeInput.value;
+
+      // Validate the ZIP code (simplified example)
+      const validZipCodePattern = /^\d{5}$/;
+      if (validZipCodePattern.test(zipCode)) {
+          // ZIP code is valid; perform the search
+          performSearch(zipCode);
+      } else {
+          // Invalid ZIP code; display an error message
+          alert('Please enter a valid 5-digit ZIP code.');
+      }
+  });
+
+  function performSearch(zipCode) {
+      // Implement the search logic here
+      // You can fetch data associated with the ZIP code and update the UI accordingly
+  }
+</script>
+
 </html>
