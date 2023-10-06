@@ -1,18 +1,29 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
+
+
+
+
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>COVID in California</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/offcanvas-navbar/">
-    <link href="static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/css/offcanvas-navbar.css" rel="stylesheet">
-    <script src="static/assets/js/color-modes.js"></script>
+    <link href="static/bootstrap.min.css" rel="stylesheet">
+    <link href="static/offcanvas-navbar.css" rel="stylesheet">
+    <script src="static/color-modes.js"></script>
+
 
     <style>
         /* Your styles go here */
     </style>
 </head>
+
+
+
+
+
 <body class="bg-body-tertiary">
 
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
@@ -39,6 +50,7 @@
             </div>
         </div>
     </nav>
+
 
     <main class="container mt-5 pt-5">
         <h1 class="display-3 text-center mb-5">COVID in California</h1>
@@ -74,32 +86,28 @@
                 <button class="btn btn-primary btn-lg w-100">Current Graph</button>
             </div>
         </div>
+
+
         <!-- Graph or additional content goes here -->
+
+
+        <h1 class="display-3 text-center mb-5">COVID in California</h1>
+        <div class="row">
+            <!-- ... (rest of the content above) ... -->
+            
+            <!-- Map Container -->
+            <div class="col-12 mt-4">
+                <div id="map" style="width: 100%; height: 500px;"></div>
+            </div>
+        </div>
+
     </main>
 
-<!-- ... (rest of the HTML above) ... -->
 
-<!-- Include Leaflet CSS and JS libraries -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-<!-- ... (rest of the HTML in between) ... -->
+    <!-- Your scripts go here -->
 
-<main class="container mt-5 pt-5">
-    <div class="row">
-        <!-- ... (rest of the content above) ... -->
-        
-        <!-- Map Container -->
-        <div class="col-12 mt-4">
-            <div id="map" style="width: 100%; height: 500px;"></div>
-        </div>
-    </div>
-    <!-- ... (rest of the content below if any) ... -->
-</main>
-
-<!-- ... (rest of the HTML below, including the scripts) ... -->
-
-<!-- Initialize the map -->
+    
 <script>
     // This code initializes the Leaflet map
     document.addEventListener("DOMContentLoaded", function() {
@@ -111,18 +119,21 @@
         }).addTo(map);
 
         // Here you can add your choropleth layer, markers, or any other map features
+
+        
     });
 </script>
 
 
-
-    <!-- Your scripts go here -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="static/assets/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="static/js/offcanvas-navbar.js"></script>
-    <script src="static/js/app.js"></script>
+    <script src="static/bootstrap.bundle.min.js"></script>
+    <script src="static/offcanvas-navbar.js"></script>
+    <script src="static/app.js"></script>
+
 </body>
 </html>
