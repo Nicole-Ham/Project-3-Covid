@@ -1,29 +1,46 @@
 document.addEventListener("DOMContentLoaded", function() {
     var map = L.map('map').setView([37.8, -96], 4);
 
+    // Assume this is at the top of your script
+    var colorScale = chroma.scale('viridis').domain([-121000, 41000]);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Load your GeoJSON data (for simplicity, assuming it's an external file)
-    fetch('path_to_your_geojson_file.geojson')
-        .then(response => response.json())
-        .then(data => {
-            // Add choropleth layer here using the data
-            L.geoJson(data, {
-                style: function(feature) {
-                    // Determine the style of each feature based on data values
-                    // This is a basic example; adjust as needed
-                    return {
-                        fillColor: "some_color_based_on_data", 
-                        weight: 2,
-                        opacity: 1,
-                        color: 'white',
-                        dashArray: '3',
-                        fillOpacity: 0.7
-                    };
-                }
-            }).addTo(map);
-        });
+
+// Define your bins.
+const bins = [-130000, -4000, -3000, -2500, -500, 0, 500, 1000, 41000];
+
+// Fetch colors corresponding to each bin's position on the 'viridis' scale.
+const colors = bins.map((_, i) => chroma.scale('viridis')(i / (bins.length - 1)).hex());
+
+// Function to get color based on value with explicit binning
+function getColorForValue(value) {
+    for (let i = 0; i < bins.length - 1; i++) {
+        if (value >= bins[i] && value < bins[i + 1]) {
+            return colors[i];
+        }
+    }
+    return colors[colors.length - 1];  
+}
+
+fetch('../Data/migration_data.geojson')
+    .then(response => response.json())
+    .then(data => {
+        L.geoJson(data, {
+            style: function(feature) {
+                var value = feature.properties.net_migration; 
+                return {
+                    fillColor: getColorForValue(value), 
+                    weight: .01,
+              
+                    fillOpacity: .7
+                };
+            }
+        }).addTo(map);
+    });
+
+
 });

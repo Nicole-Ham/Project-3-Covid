@@ -53,7 +53,6 @@
 
 
     <main class="container mt-5 pt-5">
-        <h1 class="display-3 text-center mb-5">COVID in California</h1>
         <div class="row">
             <div class="col-md-6 mb-4">
                 <div class="form-floating">
@@ -107,33 +106,25 @@
 
     <!-- Your scripts go here -->
 
-    
-<script>
-    // This code initializes the Leaflet map
-    document.addEventListener("DOMContentLoaded", function() {
-        var map = L.map('map').setView([37.8, -96], 4); // Default to the center of the US, adjust as needed
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+    <!-- Local CSS and JS -->
 
-        // Here you can add your choropleth layer, markers, or any other map features
-
-        
-    });
-</script>
+    <link rel="stylesheet" href="Covid_Webpage/styles.css" />
+    <script src="Covid_Webpage/scripts.js" defer></script>
 
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
+
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="static/bootstrap.bundle.min.js"></script>
     <script src="static/offcanvas-navbar.js"></script>
-    <script src="static/app.js"></script>
+    <script src="Covid_Webpage/app.js"></script>
 
 </body>
 </html>
