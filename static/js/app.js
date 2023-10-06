@@ -246,6 +246,58 @@ case_data.then(function(data) {
 
 });
 
+//----------------------------------------------------------------------------
+//----- Line Chart Vaccines --------------------------------------------------
+//----------------------------------------------------------------------------
+
+// fetch("/api/v1.0/vaccine_data") // Update the URL to your API endpoint
+//   .then(response => response.json())
+// .then(data => {
+// Call a function to create the line chart with the fetched data
+/**
+ * line chart is 
+ * x:counties-month
+ * y: vaccine_couts
+ */
+
+/** 
+ * @typedef {Object} Vaccine
+*  @property {any} year
+*  @property {any} month
+*  @property {any} county
+*  @property {any} cumulative_total_doses
+*  @property {any} cumulative_fully_vaccinated
+*  @property {any} cumulative_at_least_one_dose
+*  @property {any} cumulative_up_to_date_count
+ */
+
+const vaccination_data = d3.json("http://127.0.0.1:5000/api/v1.0/vaccine_data")
+vaccination_data.then(function (/** @type {Vaccine[]} */ vaccines_list) {
+  
+  console.log('vaccine_data ready for line chart',vaccines_list);
+  // console.log(Object.values(data.Date));
+  // console.log(Object.values(data.cumulative_up_to_date_count));
+
+  //
+  let trace = [{
+
+    x: vaccines_list.map((x)=> `${x.year}-${x.month}`),
+    y: vaccines_list.map(x=>x.cumulative_up_to_date_count),
+    type: "scatter",
+            marker: { size: 10 }
+  }];
+
+  const layout = {
+    title: 'Cumulative Fully Vaccinated',
+    xaxis: { title: 'Date' },
+    yaxis: { title: 'Fully Vaccinated Count' }
+};
+
+  Plotly.newPlot("scatter", trace,layout);
+
+
+});
+
 
 
 

@@ -54,7 +54,7 @@ def get_all( json_str = False ):
 
     return rows
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates', static_folder='./static')
 
 # routes
 @app.route("/login")
@@ -70,7 +70,10 @@ def case_surv():
     # # # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    results = session.execute(""" SELECT * FROM case_surv """)
+    # results = session.execute(""" SELECT * FROM case_surv """)
+
+    results = session.query(case_surv_data.id, case_surv_data.county, case_surv_data.year, case_surv_data.month, case_surv_data.age_group, case_surv_data.sex, case_surv_data.race, case_surv_data.ethnicity, case_surv_data.hosp_yn,
+                             case_surv_data.icu_yn, case_surv_data.death_yn, case_surv_data.underlying_conditions_yn).all()
 
     # results = session.query(case_surv_data.county, case_surv_data.year).all()
 
@@ -121,56 +124,44 @@ def case_surv():
   
 #   return jsonify({'success': 'ok'})
 
-# @app.route("/")
-# def index():
-#     return render_template('index.html')
+@app.route("/")
+def index():
+    return render_template('index.html')
+
 
 @app.route("/api/v1.0/vaccine_data")
 @cross_origin(origin='*')
 def api_vaccine():
   
-# # Create our session (link) from Python to the DB
-    v_session = Session(engine)
+  
+    # # Create our session (link) from Python to the DB
+    session = Session(engine)
 
     # results = session.execute(""" SELECT * FROM vaccine_data """)
 
-    # results = v_session.query(vaccine_data.county, vaccine_data.Date).all()
-
-    results = v_session.query(vaccine_data.county, vaccine_data.cumulative_total_doses, 
+    results = session.query(vaccine_data.county, vaccine_data.year, vaccine_data.month, vaccine_data.cumulative_total_doses, 
                             vaccine_data.cumulative_fully_vaccinated ,vaccine_data.cumulative_at_least_one_dose,
-                            vaccine_data.cumulative_up_to_date_count, vaccine_data.Date).all()
-
+                            vaccine_data.cumulative_up_to_date_count).all()
+    #print(results)
     # Create a dictionary from the row data and append to a list of all_passengers
-
-    v_counter = 0
-    v_county_dict = {}
-    total_dose_dict = {}
-    fully_vax_dict = {}
-    one_dose_dict = {}
-    up_to_date_dict = {}
-    date_dict = {}
-    for id, county, cumulative_total_doses, cumulative_fully_vaccinated, cumulative_at_least_one_dose, cumulative_up_to_date_count, Date in results:
+    all_vaccine_data = []
+    for county, year, month, cumulative_total_doses, cumulative_fully_vaccinated, cumulative_at_least_one_dose, cumulative_up_to_date_count in results:
         
-        v_county_dict[v_counter] = county
-        total_dose_dict[v_counter] = cumulative_total_doses
-        fully_vax_dict[v_counter] = cumulative_fully_vaccinated
-        one_dose_dict[v_counter] = cumulative_at_least_one_dose
-        up_to_date_dict[v_counter] = cumulative_up_to_date_count
-        date_dict[v_counter] = Date
+        vaccine_data_dict = {}
+        vaccine_data_dict["county"] = county 
+        vaccine_data_dict["year"] = year
+        vaccine_data_dict["month"] = month
+        vaccine_data_dict["cumulative_total_doses"] = cumulative_total_doses
+        vaccine_data_dict["cumulative_fully_vaccinated"] = cumulative_fully_vaccinated
+        vaccine_data_dict["cumulative_at_least_one_dose"] = cumulative_at_least_one_dose
+        vaccine_data_dict["cumulative_up_to_date_count"] = cumulative_up_to_date_count
 
-        v_counter += 1
+        all_vaccine_data.append(vaccine_data_dict)
 
-    all_vaccine = {}
-    all_vaccine["county"] = v_county_dict
-    all_vaccine["cumulative_total_doses"] = cumulative_total_doses
-    all_vaccine["cumulative_fully_vaccinated"] = cumulative_fully_vaccinated
-    all_vaccine["cumulative_at_least_one_dose"] = cumulative_at_least_one_dose
-    all_vaccine["cumulative_up_to_date_count"] = cumulative_up_to_date_count
-    all_vaccine["Date"] = date_dict
-
-    v_session.close()
+    session.close()
 
     return jsonify(all_vaccine_data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
