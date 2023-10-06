@@ -22,7 +22,7 @@ import os
 cwd = os.getcwd()
 sqlite_path = os.path.join(cwd, "Data/CA_COVID_data.sqlite")
 sqlite_path = f"sqlite:///{sqlite_path}"
-print(sqlite_path)
+#print(sqlite_path)
 
 #db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/Data/CA_COVID_data.sqlite" #use relative path instead
 engine = create_engine(sqlite_path)
@@ -32,12 +32,12 @@ inspector = inspect(engine)
 # reflect an existing database into a new model
 Base = automap_base()
 Base.prepare(autoload_with = engine)
-print(Base.classes.keys())
+#print(Base.classes.keys())
 case_surv_data = Base.classes.case_surv
 #print(case_surv_data.__table__.columns.keys())
 
 vaccine_data = Base.classes.vaccine_by_county
-print(vaccine_data.__table__.columns.keys())
+#print(vaccine_data.__table__.columns.keys())
 
 def get_all( json_str = False ):
     conn = sq.connect(sqlite_path)
