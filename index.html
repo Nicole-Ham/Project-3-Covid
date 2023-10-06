@@ -222,15 +222,36 @@
 
     <div class = "row">
       <div class="col-md-2">
-  <div class="well">
-          <h5>Select County:</h5>
-    <select id="selCounty"></select>
-        </div>
+        
+        <fieldset>
+          <legend><h5>Select Case Type:</h5></legend>
+        
+          <div>
+            <input type="radio" id="selDeath" name="type" value="death_yn" checked />
+            <label for="selDeath">Deaths</label>
+          </div>
+        
+          <div>
+            <input type="radio" id="selHosp" name="type" value="hosp_yn" />
+            <label for="selHosp">Hospitalizations</label>
+          </div>
+        </fieldset>
 
         <div class="well">
+          <h5>Select Years:</h5>
+          <select id="selYears"></select>
+        </div>
+
+
+        <div class="well">
+          <h5>Select County:</h5>
+          <select id="selCounty"></select>
+        </div>
+
+        <!-- <div class="well">
           <h5>Select Case Type:</h5>
           <select id="selType"></select>
-        </div>
+        </div> -->
 
         <div class="well">
           <h5>Select Outcome:</h5>
