@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>COVID in California</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/offcanvas-navbar/">
+    <link href="static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/offcanvas-navbar.css" rel="stylesheet">
+    <script src="static/assets/js/color-modes.js"></script>
+
+    <style>
+        /* Your styles go here */
+    </style>
+</head>
+<body class="bg-body-tertiary">
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">COVID in California</a>
+            <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cases & Vaccinations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Health</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Migration</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-5 pt-5">
+        <h1 class="display-3 text-center mb-5">COVID in California</h1>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="form-floating">
+                    <select class="form-select" id="floatingSelect">
+                        <option selected>Select County</option>
+                        <!-- Additional options go here -->
+                    </select>
+                    <label for="floatingSelect">Select County:</label>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="form-floating">
+                    <select class="form-select" id="floatingSelect2">
+                        <option selected>Select Case Type</option>
+                        <!-- Additional options go here -->
+                    </select>
+                    <label for="floatingSelect2">Select Case Type:</label>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="form-floating">
+                    <select class="form-select" id="floatingSelect3">
+                        <option selected>Select Outcome</option>
+                        <!-- Additional options go here -->
+                    </select>
+                    <label for="floatingSelect3">Select Outcome:</label>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <button class="btn btn-primary btn-lg w-100">Current Graph</button>
+            </div>
+        </div>
+        <!-- Graph or additional content goes here -->
+    </main>
+
+<!-- ... (rest of the HTML above) ... -->
+
+<!-- Include Leaflet CSS and JS libraries -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<!-- ... (rest of the HTML in between) ... -->
+
+<main class="container mt-5 pt-5">
+    <div class="row">
+        <!-- ... (rest of the content above) ... -->
+        
+        <!-- Map Container -->
+        <div class="col-12 mt-4">
+            <div id="map" style="width: 100%; height: 500px;"></div>
+        </div>
+    </div>
+    <!-- ... (rest of the content below if any) ... -->
+</main>
+
+<!-- ... (rest of the HTML below, including the scripts) ... -->
+
+<!-- Initialize the map -->
+<script>
+    // This code initializes the Leaflet map
+    document.addEventListener("DOMContentLoaded", function() {
+        var map = L.map('map').setView([37.8, -96], 4); // Default to the center of the US, adjust as needed
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Here you can add your choropleth layer, markers, or any other map features
+    });
+</script>
+
+
+
+    <!-- Your scripts go here -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="static/assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/offcanvas-navbar.js"></script>
+    <script src="static/js/app.js"></script>
+</body>
+</html>
