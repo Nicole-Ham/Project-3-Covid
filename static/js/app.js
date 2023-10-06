@@ -1,3 +1,23 @@
+
+const vax_data = d3.json("http://127.0.0.1:5000/api/v1.0/vaccine_data")
+vax_data.then(function(data) {
+  
+  //console.log(data);
+  //console.log(Object.values(data.county));
+  //console.log(Object.values(data.cumulative_up_to_date_count));
+});
+
+//   let trace = [{
+    
+//     x: data.month,
+//     y: data.cumulative_up_to_date_count,
+//     type: "scatter"
+//   }];
+
+//   Plotly.newPlot("scatter", trace);
+
+// });
+
 //--------------------------------
 //--------- Functions ------------
 //--------------------------------
@@ -29,8 +49,10 @@ function uniqueArray4(a) {
 const case_data = d3.json("http://127.0.0.1:5000/api/v1.0/case_surv")
 case_data.then(function(data) {
 
-  console.log(data);
-  console.log(Object.values(data.age_group).length);
+  //console.log(data);
+  //console.log(data.county);
+
+  //console.log(Object.values(data.age_group).length);
 
   let data_length = Object.values(data.age_group).length;
 
@@ -49,14 +71,14 @@ case_data.then(function(data) {
     selector_county.append("option").text(counties[i]).property("value", counties[i]);
   };
 
-  let types = ["Deaths" ,"Hospitalizations"];
-  let data_types = ["death_yn", "hosp_yn"];
+  // let types = ["Deaths" ,"Hospitalizations"];
+  // let data_types = ["death_yn", "hosp_yn"];
 
-  let selector_type = d3.select("#selType");
-  for(let i =0; i < types.length; i++) {
+  // let selector_type = d3.select("#selType");
+  // for(let i =0; i < types.length; i++) {
         
-    selector_type.append("option").text(types[i]).property("value", data_types[i]);
-  };
+  //   selector_type.append("option").text(types[i]).property("value", data_types[i]);
+  // };
 
   let outcomes = ["Yes", "No", "Unknown"];
   //console.log(outcomes);
@@ -71,7 +93,7 @@ case_data.then(function(data) {
   //--------- Bar Plot Function ----
   //--------------------------------
 
-  function plotBar(outcome, type_arr, month_arr, year_arr, unique_months_arr) {
+  function plotBar(outcome, years, type_arr, month_arr, year_arr, unique_months_arr) {
     
     let type_outcome_2020 = {};
     let type_outcome_2021 = {};
@@ -97,15 +119,33 @@ case_data.then(function(data) {
       }
     };
     let type_outcome_dict = {2020: type_outcome_2020, 2021: type_outcome_2021, 2022: type_outcome_2022, 2023: type_outcome_2023};
+    console.log(Object.values(type_outcome_dict["2020"]));
     
-    console.log(type_outcome_dict)
+    //console.log(type_outcome_dict)
+  
+    let type_bar_data = [] ;
+    for (i in years) {
 
-    let type_bar_data = [barTrace(Object.keys(type_outcome_dict[2020]), Object.values(type_outcome_dict[2020]), 2020), barTrace(Object.keys(type_outcome_dict[2021]), Object.values(type_outcome_dict[2021]), 2021) ]
+      //console.log(years[i]);
+      type_bar_data.push(barTrace(Object.keys(type_outcome_dict[years[i]]), Object.values(type_outcome_dict[years[i]]), years[i]));
+      //console.log(years_data[1]);
+    };
+
+    //barTrace(Object.keys(type_outcome_dict[2020]), Object.values(type_outcome_dict[2020]), 2020), barTrace(Object.keys(type_outcome_dict[2021]), Object.values(type_outcome_dict[2021]), 2021), barTrace(Object.keys(type_outcome_dict[2022]), Object.values(type_outcome_dict[2022]), 2022), barTrace(Object.keys(type_outcome_dict[2023]), Object.values(type_outcome_dict[2023]), 2023) 
+    //let type_bar_data = years_data;
+    //console.log(type_bar_data);
+    //console.log(type_bar_data[0]);
     let bar_layout = {
   
       title: {text:'Hospitalizations Over Time'},
-      // xaxis: {title:{text: 'Month'}},
-      yaxis: {title:{text: 'Total Hospitalizations'}},
+      xaxis: {title:{
+        text: 'Month',
+        standoff: 20
+      }},
+      yaxis: {title:{
+        text: 'Total Hospitalizations',
+        standoff: 10
+      }},
 
       autosize: false,
       width: 525,
@@ -113,7 +153,7 @@ case_data.then(function(data) {
       margin: {
       l: 75,
       r: 50,
-      b: 100,
+      b: 120,
       t: 100,
       pad: 4
       }
@@ -138,7 +178,9 @@ case_data.then(function(data) {
   // years = years.sort((a,b) => a - b);
   //console.log(all_years_arr);
 
-  plotBar("Yes", all_hosp_arr, all_months_arr, all_years_arr, unique_months);
+  let all_years = [2020, 2021, 2022, 2023]; 
+
+  plotBar("Unknown", all_years, all_hosp_arr, all_months_arr, all_years_arr, unique_months);
 
   //--------------------------------
   //--------- Pie Chart ------------
@@ -150,7 +192,8 @@ case_data.then(function(data) {
 
   d3.select("#selCounty").on("change", updateBar);
   d3.select("#selOutcome").on("change", updateBar);
-  d3.select("#selType").on("change", updateBar);
+  //d3.select("#selType").on("change", updateBar);
+  //d3.select()
   d3.select("#currSettings").on("change", updateBar);
   
   // let curr_county_text = d3.select("#currSettings");
@@ -161,8 +204,8 @@ case_data.then(function(data) {
   //----- Update Plots -----
   //------------------------
       
-  console.log(data.county[0]);
-  console.log(data.hosp_yn[0]);
+  //console.log(data.county[0]);
+  //console.log(data.hosp_yn[0]);
 
     function updateBar() {
 
@@ -172,7 +215,7 @@ case_data.then(function(data) {
       let outcome_dropdown = d3.select("#selOutcome");
       let selected_outcome = outcome_dropdown.property("value");
 
-      if (selected_county == "ALL COUNTIES") {plotBar(selected_outcome, all_hosp_arr, all_months_arr, all_years_arr, unique_months);}
+      if (selected_county == "ALL COUNTIES") {plotBar(selected_outcome, all_years, all_hosp_arr, all_months_arr, all_years_arr, unique_months);}
       else {
 
         let curr_hosp_arr = [];
@@ -195,7 +238,7 @@ case_data.then(function(data) {
             //console.log(curr_years_arr);
             //console.log(curr_hosp_arr.length);
 
-        plotBar(selected_outcome, curr_hosp_arr, curr_months_arr, curr_years_arr, unique_months);
+        plotBar(selected_outcome, all_years, curr_hosp_arr, curr_months_arr, curr_years_arr, unique_months);
  
       }
 
