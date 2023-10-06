@@ -12,8 +12,6 @@ import os
 #################################################
 # Database Setup
 #################################################
-# db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/data/CA_COVID_data.sqlite"
-# cs_engine = create_engine(cs_db)
 
 # db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/Data/CA_COVID_data.sqlite" #use relative path instead
 # engine = create_engine(db)
@@ -24,7 +22,7 @@ import os
 cwd = os.getcwd()
 sqlite_path = os.path.join(cwd, "Data/CA_COVID_data.sqlite")
 sqlite_path = f"sqlite:///{sqlite_path}"
-print(sqlite_path)
+#print(sqlite_path)
 
 #db = "sqlite:////Users/isabelsmorrison/Personal/Data_Analytics_Bootcamp/Projects/Project3/Project-3-Covid/Data/CA_COVID_data.sqlite" #use relative path instead
 engine = create_engine(sqlite_path)
@@ -34,15 +32,15 @@ inspector = inspect(engine)
 # reflect an existing database into a new model
 Base = automap_base()
 Base.prepare(autoload_with = engine)
-print(Base.classes.keys())
+#print(Base.classes.keys())
 case_surv_data = Base.classes.case_surv
 #print(case_surv_data.__table__.columns.keys())
 
 vaccine_data = Base.classes.vaccine_by_county
-print(vaccine_data.__table__.columns.keys())
+#print(vaccine_data.__table__.columns.keys())
 
 def get_all( json_str = False ):
-    conn = sq.connect(db)
+    conn = sq.connect(sqlite_path)
     conn.row_factory = sq.Row # This enables column access by name: row['column_name'] 
     db = conn.cursor()
 
@@ -70,9 +68,9 @@ def login():
 def case_surv():
 
     # # # Create our session (link) from Python to the DB
-    cs_session = Session(engine)
+    session = Session(engine)
 
-    results = cs_session.execute(""" SELECT * FROM case_surv """)
+    results = session.execute(""" SELECT * FROM case_surv """)
 
     # results = session.query(case_surv_data.county, case_surv_data.year).all()
 
@@ -113,9 +111,10 @@ def case_surv():
     all_case_surv["death_yn"] = death_yn_dict
     #case_surv_dict["underlying_conditions_yn"] = underlying_conditions_yn
 
-    cs_session.close()
+    session.close()
 
     return jsonify(all_case_surv)
+
 # @app.route("/login")
 # @cross_origin(origin='*')
 # def login():
@@ -127,16 +126,16 @@ def case_surv():
 #     return render_template('index.html')
 
 @app.route("/api/v1.0/vaccine_data")
-# @cross_origin(origin='*')
+@cross_origin(origin='*')
 def api_vaccine():
   
   
     # # Create our session (link) from Python to the DB
-    v_session = Session(engine)
+    session = Session(engine)
 
     # results = session.execute(""" SELECT * FROM vaccine_data """)
 
-    results = v_session.query(vaccine_data.county, vaccine_data.year, vaccine_data.month, vaccine_data.cumulative_total_doses, 
+    results = session.query(vaccine_data.county, vaccine_data.year, vaccine_data.month, vaccine_data.cumulative_total_doses, 
                             vaccine_data.cumulative_fully_vaccinated ,vaccine_data.cumulative_at_least_one_dose,
                             vaccine_data.cumulative_up_to_date_count).all()
     #print(results)
@@ -155,7 +154,7 @@ def api_vaccine():
 
         all_vaccine_data.append(vaccine_data_dict)
 
-    v_session.close()
+    session.close()
 
     return jsonify(all_vaccine_data)
 
