@@ -7,6 +7,8 @@ vax_data.then(function(data) {
   //console.log(Object.values(data.cumulative_up_to_date_count));
 });
 
+let vax_data_arr = null
+
 //   let trace = [{
     
 //     x: data.month,
@@ -61,11 +63,13 @@ case_data.then(function(data) {
   //--------------------------------
 
   let county_arr = Object.values(data.county);
-  county_arr.push("ALL COUNTIES");
-  let counties = uniqueArray4(county_arr);
-  counties = counties.sort();
+  // county_arr.push(" ALL COUNTIES");
+  let counties = uniqueArray4(county_arr); // get the unique counties, 
+  counties = counties.sort();//sort them
 
   let selector_county = d3.select("#selCounty");
+  selector_county.append('option').text('ALL COUNTIES')
+  // add an option element for each county 
   for(let i =0; i < counties.length; i++) {
         
     selector_county.append("option").text(counties[i]).property("value", counties[i]);
@@ -190,7 +194,12 @@ case_data.then(function(data) {
   //----- Update Page -----
   //------------------------
 
-  d3.select("#selCounty").on("change", updateBar);
+  d3.select("#selCounty").on("change",($event)=>{
+    //this function is called when the selCounty value is changed
+    const value = $event?.target?.value
+    updateBar()
+    makeScatterPlot(vax_data_arr,value)
+  });
   d3.select("#selOutcome").on("change", updateBar);
   //d3.select("#selType").on("change", updateBar);
   //d3.select()
@@ -272,20 +281,36 @@ case_data.then(function(data) {
  */
 
 const vaccination_data = d3.json("http://127.0.0.1:5000/api/v1.0/vaccine_data")
-vaccination_data.then(function (/** @type {Vaccine[]} */ vaccines_list) {
+vaccination_data.then((vaccines)=>{
+  vax_data_arr = vaccines
+  makeScatterPlot(vax_data_arr)
+});
+
+function makeScatterPlot (/** @type {Vaccine[]} */ vaccines_list,county=null) {
   
-  console.log('vaccine_data ready for line chart',vaccines_list);
+  console.log('vaccine_data ready for line chart',vaccines_list.length,county);
   // console.log(Object.values(data.Date));
   // console.log(Object.values(data.cumulative_up_to_date_count));
 
   //
-  let trace = [{
+  let trace = [
+    {
 
-    x: vaccines_list.map((x)=> `${x.year}-${x.month}`),
-    y: vaccines_list.map(x=>x.cumulative_up_to_date_count),
+    x: vaccines_list.filter(data=> ![null,undefined,'','ALL COUNTIES'].includes(county)? data.county===county:true).map((x)=> `${x.year}-${x.month}`),
+    y: vaccines_list.filter(data=> ![null,undefined,'','ALL COUNTIES'].includes(county)? data.county===county:true).map(x=>x.cumulative_up_to_date_count),
+    name:'up_to_date',
     type: "scatter",
             marker: { size: 10 }
-  }];
+  },
+    {
+
+    x: vaccines_list.filter(data=> ![null,undefined,'','ALL COUNTIES'].includes(county)? data.county===county:true).map((x)=> `${x.year}-${x.month}`),
+    y: vaccines_list.filter(data=> ![null,undefined,'','ALL COUNTIES'].includes(county)? data.county===county:true).map(x=>x.cumulative_fully_vaccinated),
+    type: "scatter",
+    name: 'full_vaxed',
+    marker: { size: 10 }
+  }
+];
 
   const layout = {
     title: 'Cumulative Fully Vaccinated',
@@ -296,7 +321,7 @@ vaccination_data.then(function (/** @type {Vaccine[]} */ vaccines_list) {
   Plotly.newPlot("scatter", trace,layout);
 
 
-});
+}
 
 
 
