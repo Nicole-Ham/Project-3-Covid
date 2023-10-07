@@ -42,5 +42,4 @@ fetch('../Data/migration_data.geojson')
         }).addTo(map);
     });
 
-
 });
