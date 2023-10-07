@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid in California</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <style>
+        /* Navbar custom styles */
+        .navbar {
+            background-color: black;
+        }
+        .navbar-dark .navbar-nav .nav-link {
+            color: darkgray;
+        }
+        .navbar-dark .navbar-nav .active > .nav-link, 
+        .navbar-dark .navbar-nav .nav-link.active, 
+        .navbar-dark .navbar-nav .nav-link.show, 
+        .navbar-dark .navbar-nav .show > .nav-link {
+            color: white; /* Active text color */
+        }
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: yellow; /* Highlight on hover */
+        }
+
+
+        body {
+            background-image: url('Covid_Webpage/facemasks_staff.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed; /* This will ensure the image doesn't scroll with the content */
+            height: 100vh; /* This ensures the body takes up the full height of the viewport */
+            margin: 0; /* This ensures there are no default margins around the body */
+            overflow: hidden; /* This ensures there's no scrollbar if the content exceeds the viewport height */
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" data-view="overview">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-view="cases-vaccinations">Cases & Vaccinations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-view="health">Health</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-view="migration">Migration</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <script>
+        // JavaScript to handle navbar item clicks
+        document.querySelectorAll('.nav-link').forEach(item => {
+            item.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default anchor behavior
+                document.querySelectorAll('.nav-link').forEach(link => link.parentElement.classList.remove('active'));
+                item.parentElement.classList.add('active');
+                
+                // Here you can add functionality to switch the view based on the 'data-view' attribute.
+            });
+        });
+    </script>
+
+
+    <!-- Migration View Container -->
+    <div id="migration-view" style="display: none; height: 100vh;">
+    <div id="map" style="height: 100%;"></div>
+    </div>
+    <script>
+
+        var map = L.map('map').setView([37.8, -96], 4);
+
+        var colorScale = chroma.scale('viridis').domain([-121000, 41000]);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Define your bins.
+        const bins = [-130000, -4000, -3000, -2500, -500, 0, 500, 1000, 41000];
+
+        // Fetch colors corresponding to each bin's position on the 'viridis' scale.
+        const colors = bins.map((_, i) => chroma.scale('viridis')(i / (bins.length - 1)).hex());
+
+        // Function to get color based on value with explicit binning
+        function getColorForValue(value) {
+            for (let i = 0; i < bins.length - 1; i++) {
+                if (value >= bins[i] && value < bins[i + 1]) {
+                    return colors[i];
+                }
+            }
+            return colors[colors.length - 1];  
+        }
+
+        fetch('../Data/migration_data.geojson')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJson(data, {
+                    style: function(feature) {
+                        var value = feature.properties.net_migration; 
+                        return {
+                            fillColor: getColorForValue(value), 
+                            weight: .01,
+                    
+                            fillOpacity: .7
+                        };
+                    }
+                }).addTo(map);
+            });
+
+    </script>
+
+
+
+</body>
+
+
+</html>
