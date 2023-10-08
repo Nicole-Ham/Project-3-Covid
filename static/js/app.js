@@ -300,7 +300,7 @@ function makeScatterPlot (/** @type {Vaccine[]} */ vaccines_list,county=null) {
     y: vaccines_list.filter(data=> ![null,undefined,'','ALL COUNTIES'].includes(county)? data.county===county:true).map(x=>x.cumulative_up_to_date_count),
     name:'up_to_date',
     type: "scatter",
-            marker: { size: 10 }
+    marker: { size: 10 }
   },
     {
 
@@ -310,12 +310,20 @@ function makeScatterPlot (/** @type {Vaccine[]} */ vaccines_list,county=null) {
     name: 'full_vaxed',
     marker: { size: 10 }
   }
+  {
+
+    x: vaccines_list.filter(data=> ![null,undefined,'','ALL COUNTIES'].includes(county)? data.county===county:true).map((x)=> `${x.year}-${x.month}`),
+    y: vaccines_list.filter(data=> ![null,undefined,'','ALL COUNTIES'].includes(county)? data.county===county:true).map(x=>x.cumulative_total_doses),
+    type: "scatter",
+    name: 'total doses',
+    marker: { size: 10 }
+  }
 ];
 
   const layout = {
-    title: 'Cumulative Fully Vaccinated',
+    title: 'County Vaccination Numbers',
     xaxis: { title: 'Date' },
-    yaxis: { title: 'Fully Vaccinated Count' }
+    yaxis: { title: 'Vaccination Counts' }
 };
 
   Plotly.newPlot("scatter", trace,layout);
