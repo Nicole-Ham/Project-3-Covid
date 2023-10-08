@@ -135,7 +135,7 @@
                 return colors[colors.length - 1];
             }
 
-            fetch('../Data/migration_data.geojson')
+            fetch('Data/migration_data.geojson')
                 .then(response => response.json())
                 .then(data => {
                     L.geoJson(data, {
@@ -149,6 +149,7 @@
                         }
                     }).addTo(map);
                 });
+
 
             // Show the map container
             document.getElementById("mapContainer").style.visibility = "visible";
@@ -183,6 +184,7 @@
                 // Update the navbar item styling
                 document.querySelectorAll('.nav-link').forEach(link => link.parentElement.classList.remove('active'));
                 item.parentElement.classList.add('active');
+                
             });
         });
     </script>
