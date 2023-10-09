@@ -63,6 +63,8 @@ def login():
   
   return jsonify({'success': 'ok'})
 
+
+# Isabel
 @app.route("/api/v1.0/case_surv")
 @cross_origin(origin='*')
 def case_surv():
@@ -141,7 +143,7 @@ def index():
 def index():
     return render_template('migration.html')
 
-
+# Nicolee
 @app.route("/api/v1.0/vaccine_data")
 @cross_origin(origin='*')
 def api_vaccine():
@@ -175,6 +177,7 @@ def api_vaccine():
 
     return jsonify(all_vaccine_data)
 
+## new routes for anyones should go here , please add your name to your route as a comment
 
 if __name__ == '__main__':
     app.run(debug=True)
