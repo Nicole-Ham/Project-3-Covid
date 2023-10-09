@@ -309,7 +309,7 @@ function makeScatterPlot (/** @type {Vaccine[]} */ vaccines_list,county=null) {
     type: "scatter",
     name: 'full_vaxed',
     marker: { size: 10 }
-  }
+  },
   {
 
     x: vaccines_list.filter(data=> ![null,undefined,'','ALL COUNTIES'].includes(county)? data.county===county:true).map((x)=> `${x.year}-${x.month}`),
