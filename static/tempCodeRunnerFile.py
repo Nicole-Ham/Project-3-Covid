@@ -1,0 +1,1 @@
+print(case_surv_data.__table__.columns.keys())
