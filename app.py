@@ -54,7 +54,7 @@ def get_all( json_str = False ):
 
     return rows
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates', static_folder='./static')
 
 # routes
 @app.route("/login")
@@ -70,7 +70,10 @@ def case_surv():
     # # # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    results = session.execute(""" SELECT * FROM case_surv """)
+    # results = session.execute(""" SELECT * FROM case_surv """)
+
+    results = session.query(case_surv_data.id, case_surv_data.county, case_surv_data.year, case_surv_data.month, case_surv_data.age_group, case_surv_data.sex, case_surv_data.race, case_surv_data.ethnicity, case_surv_data.hosp_yn,
+                             case_surv_data.icu_yn, case_surv_data.death_yn, case_surv_data.underlying_conditions_yn).all()
 
     # results = session.query(case_surv_data.county, case_surv_data.year).all()
 
@@ -121,9 +124,10 @@ def case_surv():
   
 #   return jsonify({'success': 'ok'})
 
-# @app.route("/")
-# def index():
-#     return render_template('index.html')
+@app.route("/")
+def index():
+    return render_template('index.html')
+
 
 @app.route("/api/v1.0/vaccine_data")
 @cross_origin(origin='*')
@@ -157,6 +161,7 @@ def api_vaccine():
     session.close()
 
     return jsonify(all_vaccine_data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
