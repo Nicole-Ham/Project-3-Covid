@@ -175,57 +175,15 @@
       </ul>
     </div>
 
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#"> </a>
-        <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="flex flex-column">
 
-        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/index.html">
-                <h4>Overview</h4>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="/cases&vaccines.html">
-                <h4>Cases & Vaccinations</h4>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="/health.html">
-                <h4>Health</h4>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="/migration.html">
-                <h4>Migration</h4>
-              </a>
-            </li>
-
-            <!--<li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Settings</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>-->
-          </ul>
-          <!--<form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>-->
+        {% include 'partials/nav.html' %}
+    
+        <div class="container h-100 d-flex flex-column mt-5">
+            {% block content %}{% endblock %}
         </div>
-      </div>
-    </nav>
+    </div>
 
-    <div class="container h-100 d-flex flex-column mt-5">migration goes here</div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
