@@ -128,6 +128,19 @@ def case_surv():
 def index():
     return render_template('index.html')
 
+@app.route("/health",endpoint="health")
+def index():
+    return render_template('health.html')
+
+@app.route("/cases_and_vaccines",endpoint="cases_and_vaccines")
+def index():
+    return render_template('cases_and_vaccines.html')
+
+
+@app.route("/migration",endpoint="migration")
+def index():
+    return render_template('migration.html')
+
 
 @app.route("/api/v1.0/vaccine_data")
 @cross_origin(origin='*')
