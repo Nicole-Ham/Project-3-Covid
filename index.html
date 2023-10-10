@@ -101,86 +101,144 @@
         <h1 class="view-header">This is Health</h1>
     </div>
 
-<!-- Migration View Container -->
-<div class="view-module migration style" data-view-name="migration" style="display: none; height: 90vh; display: flex; justify-content: center; align-items: center;">
 
-    <!-- Container to hold the map, which will maintain aspect ratio and size -->
+
+
+<!-- Migration View Container -->
+<div class="view-module migration-style" data-view-name="migration" style="display: none; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+    <!-- Container to hold the map -->
     <div id="mapContainer" style="width: 100vmin; height: 66vmin; position: relative; border: 8px solid rgba(0, 0, 0, 0.5); border-radius: 15px; overflow: hidden; visibility: hidden;">
         <div id="map" style="width: 100%; height: 100%; position: absolute;"></div>
     </div>
-    
+
+    <!-- Year Slider -->
+    <input type="range" min="2017" max="2021" value="2020" id="yearSlider" style="width: 50%; margin-top: 20px; visibility: hidden;">
+    <label for="yearSlider" id="yearLabel" style="visibility: hidden;">Year: 2020</label>
+
     <style>
         .migration-style {
-            /* Specific styles for the migration view module */
             position: relative;
-            z-index: 10;  /* or any other styles as required */
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        .net-positive {
+            color: green;
+        }
+        .net-negative {
+            color: red;
         }
     </style>
 
     <script>
-        
-        function initializeMigrationMap() {
-            var map_year = 2020;  // Default map year
+        var map = L.map('map').setView([37.8, -96], 4);
+        var baseLayer;  
+        var dataByYear = {};  // To store GeoJSON data by year
 
-            var map = L.map('map').setView([37.8, -96], 4);
+        function fetchDataForYear(year) {
+            return fetch(`http://127.0.0.1:5000/api/v1.0/migration_data/${year}`)
+                .then(response => response.json());
+        }
+
+        // Fetch data for all years and store in dataByYear
+        Promise.all([
+            fetchDataForYear(2017),
+            fetchDataForYear(2018),
+            fetchDataForYear(2019),
+            fetchDataForYear(2020),
+            fetchDataForYear(2021)
+        ]).then(([data2017, data2018, data2019, data2020, data2021]) => {
+            dataByYear = {
+                2017: data2017,
+                2018: data2018,
+                2019: data2019,
+                2020: data2020,
+                2021: data2021
+            };
+            initializeMigrationMap();  // Initialize the map after all data is fetched
+        });
+
+        function updateMapData() {
+            map.eachLayer(function(layer) {
+                if (layer !== baseLayer) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            L.geoJson(dataByYear[map_year], {
+                style: function(feature) {
+                    var value = feature.properties.net_migration;
+                    return {
+                        fillColor: getColorForValue(value),
+                        weight: .01,
+                        fillOpacity: .6
+                    };
+                },
+                onEachFeature: function(feature, layer) {
+                    if (feature.properties) {
+                        var netMigrationFormatted = new Intl.NumberFormat().format(feature.properties.net_migration);
+                        var colorClass = feature.properties.net_migration >= 0 ? 'net-positive' : 'net-negative';
+                        var tooltipContent = `<strong>${feature.properties.county}, ${feature.properties.state}</strong><br>
+                                    Net Migration: <span class="${colorClass}">${netMigrationFormatted}</span>`;
+                        layer.bindTooltip(tooltipContent);
+                    }
+                }
+            }).addTo(map);
+        }
+
+        function initializeMigrationMap() {
             var colorScale = chroma.scale('viridis').domain([-121000, 41000]);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // Define bins
-            bins = [-150000, -4000, -3000, -2500, -500, 0, 500, 1000, 2000, 150000]
+            updateMapData(); // Load data for the initial year
 
-            // Fetch colors corresponding to each bin's position on the 'viridis' scale
-            const colors = bins.map((_, i) => chroma.scale('viridis')(i / (bins.length - 1)).hex());
-
-            // Function to get color based on value with explicit binning
-            function getColorForValue(value) {
-                for (let i = 0; i < bins.length - 1; i++) {
-                    if (value >= bins[i] && value < bins[i + 1]) {
-                        return colors[i];
-                    }
-                }
-                return colors[colors.length - 1];
-            }
-
-            fetch('/api/v1.0/migration_data')  // Fixed the endpoint URL
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    L.geoJson(data, {
-                        filter: function(feature) {
-                        // Return true only for features with a year property of map_year (2020 by default)
-                        return feature.properties.year === map_year;
-                        },
-                        style: function (feature) {
-                            var value = feature.properties.net_migration;
-                            return {
-                                fillColor: getColorForValue(value),
-                                weight: .01,
-                                fillOpacity: .7
-                            };
-                        }
-                    }).addTo(map);
-                });
-
-            // Show the map container
             document.getElementById("mapContainer").style.visibility = "visible";
+            document.getElementById("yearSlider").style.visibility = "visible";
+            document.getElementById("yearLabel").style.visibility = "visible";
 
             map.invalidateSize();
         }
 
-        // Call initializeMigrationMap when the "Migration" view is first made active
+        var map_year = 2020;  // Default map year
+
+        function updateMapYear() {
+            map_year = parseInt(document.getElementById('yearSlider').value);
+            document.getElementById('yearLabel').textContent = "Year: " + map_year;
+            updateMapData();
+        }
+
+        document.getElementById('yearSlider').addEventListener('input', updateMapYear);
+
         document.querySelector('[data-view="migration"]').parentElement.addEventListener('click', () => {
             if (!window.migrationMapInitialized) {
                 initializeMigrationMap();
                 window.migrationMapInitialized = true;
             }
         });
+
+        bins = [-150000, -4000, -3000, -2500, -500, 0, 500, 1000, 2000, 150000];
+        const colors = bins.map((_, i) => chroma.scale('viridis')(i / (bins.length - 1)).hex());
+
+        function getColorForValue(value) {
+            for (let i = 0; i < bins.length - 1; i++) {
+                if (value >= bins[i] && value < bins[i + 1]) {
+                    return colors[i];
+                }
+            }
+            return colors[colors.length - 1];
+        }
+
     </script>
 </div>
+
+
 
 
 
@@ -195,7 +253,7 @@
 
                 // Get the data-view attribute of the clicked link
                 const viewName = event.target.getAttribute('data-view');
-
+                
                 // Show the corresponding view container
                 document.querySelector(`#${viewName}-view`).style.display = 'block';
 
@@ -207,27 +265,5 @@
         });
     </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
