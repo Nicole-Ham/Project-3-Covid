@@ -1,102 +1,223 @@
-<!doctype html>
-<html lang="en" data-bs-theme="auto">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>COVID in California</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid in California</title>
 
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-
-
-    <link href="static/bootstrap.min.css" rel="stylesheet">
-    <!-- External CSS and JS -->
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="Covid_Webpage/styles.css" />
+
+    <style>
+        /* Navbar custom styles */
+        .navbar {
+            background-color: black;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: darkgray;
+        }
+
+        .navbar-dark .navbar-nav .active > .nav-link,
+        .navbar-dark .navbar-nav .nav-link.active,
+        .navbar-dark .navbar-nav .nav-link.show,
+        .navbar-dark .navbar-nav .show > .nav-link {
+            color: white; /* Active text color */
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: yellow; /* Highlight on hover */
+        }
+
+        body {
+            background-image: url('Covid_Webpage/facemasks_covid.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .navbar {
+            position: relative;
+            z-index: 1000;
+        }
+
+        /* Centered header text for view modules */
+        .view-header {
+            font-size: 4em;
+            text-align: center;
+            margin-top: 30vh; /* Vertically center */
+        }
+    </style>
+
+    <!-- Chroma.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
 </head>
 
-
-
-<body class="bg-body-tertiary">
-    
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-                <a class="navbar-brand" href="#">COVID in California</a>
-                <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Overview</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Cases & Vaccinations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Health</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Migration</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    
-    
-        <main class="container mt-5 pt-5">
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect">
-                            <option selected>Select County</option>
-                            <!-- Additional options go here -->
-                        </select>
-                        <label for="floatingSelect">Select County:</label>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect2">
-                            <option selected>Select Case Type</option>
-                            <!-- Additional options go here -->
-                        </select>
-                        <label for="floatingSelect2">Select Case Type:</label>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect3">
-                            <option selected>Select Outcome</option>
-                            <!-- Additional options go here -->
-                        </select>
-                        <label for="floatingSelect3">Select Outcome:</label>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <button class="btn btn-primary btn-lg w-100">Current Graph</button>
-                </div>
-            </div>
-    
-    
-            <h1 class="display-3 text-center mb-5">COVID in California</h1>
-            <div class="row">
-                <!-- Map Container -->
-                <div class="col-12 mt-4">
-                    <div id="map" style="width: 100%; height: 500px;"></div>
-                </div>
-            </div>
-    
-        </main>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-view="overview">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-view="cases-vaccinations">Cases & Vaccinations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-view="health">Health</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-view="migration">Migration</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="static/bootstrap.bundle.min.js"></script>
-    <script src="Covid_Webpage/scripts.js" defer></script>
+    <!-- Overview View -->
+    <div id="overview-view" style="display: none; width: 100%; height: 100%;">
+        <h1 class="view-header">This is Overview</h1>
+    </div>
+
+    <!-- Cases & Vaccinations View -->
+    <div id="cases-vaccinations-view" style="display: none; width: 100%; height: 100%;">
+        <h1 class="view-header">This is Cases & Vaccinations</h1>
+    </div>
+
+    <!-- Health View -->
+    <div id="health-view" style="display: none; width: 100%; height: 100%;">
+        <h1 class="view-header">This is Health</h1>
+    </div>
+
+<!-- Migration View Container -->
+<div class="view-module migration style" data-view-name="migration" style="display: none; height: 90vh; display: flex; justify-content: center; align-items: center;">
+
+    <!-- Container to hold the map, which will maintain aspect ratio and size -->
+    <div id="mapContainer" style="width: 100vmin; height: 66vmin; position: relative; border: 8px solid rgba(0, 0, 0, 0.5); border-radius: 15px; overflow: hidden; visibility: hidden;">
+        <div id="map" style="width: 100%; height: 100%; position: absolute;"></div>
+    </div>
+    
+    <style>
+        .migration-style {
+            /* Specific styles for the migration view module */
+            position: relative;
+            z-index: 10;  /* or any other styles as required */
+        }
+    </style>
+
+    <script>
+        
+        function initializeMigrationMap() {
+            var map_year = 2020;  // Default map year
+
+            var map = L.map('map').setView([37.8, -96], 4);
+            var colorScale = chroma.scale('viridis').domain([-121000, 41000]);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Define bins
+            bins = [-150000, -4000, -3000, -2500, -500, 0, 500, 1000, 2000, 150000]
+
+            // Fetch colors corresponding to each bin's position on the 'viridis' scale
+            const colors = bins.map((_, i) => chroma.scale('viridis')(i / (bins.length - 1)).hex());
+
+            // Function to get color based on value with explicit binning
+            function getColorForValue(value) {
+                for (let i = 0; i < bins.length - 1; i++) {
+                    if (value >= bins[i] && value < bins[i + 1]) {
+                        return colors[i];
+                    }
+                }
+                return colors[colors.length - 1];
+            }
+
+            fetch('/api/v1.0/migration_data')  // Fixed the endpoint URL
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    L.geoJson(data, {
+                        filter: function(feature) {
+                        // Return true only for features with a year property of map_year (2020 by default)
+                        return feature.properties.year === map_year;
+                        },
+                        style: function (feature) {
+                            var value = feature.properties.net_migration;
+                            return {
+                                fillColor: getColorForValue(value),
+                                weight: .01,
+                                fillOpacity: .7
+                            };
+                        }
+                    }).addTo(map);
+                });
+
+            // Show the map container
+            document.getElementById("mapContainer").style.visibility = "visible";
+
+            map.invalidateSize();
+        }
+
+        // Call initializeMigrationMap when the "Migration" view is first made active
+        document.querySelector('[data-view="migration"]').parentElement.addEventListener('click', () => {
+            if (!window.migrationMapInitialized) {
+                initializeMigrationMap();
+                window.migrationMapInitialized = true;
+            }
+        });
+    </script>
+</div>
+
+
+
+
+    <script>
+        document.querySelectorAll('.nav-link').forEach(item => {
+            item.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                // Hide all view containers
+                document.querySelectorAll('[id$="-view"]').forEach(view => view.style.display = 'none');
+
+                // Get the data-view attribute of the clicked link
+                const viewName = event.target.getAttribute('data-view');
+
+                // Show the corresponding view container
+                document.querySelector(`#${viewName}-view`).style.display = 'block';
+
+                // Update the navbar item styling
+                document.querySelectorAll('.nav-link').forEach(link => link.parentElement.classList.remove('active'));
+                item.parentElement.classList.add('active');
+                
+            });
+        });
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
 
