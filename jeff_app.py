@@ -27,22 +27,19 @@ session.close()
 # Preload county geometries
 counties_gdf = gpd.read_file('Data/us_counties_geometry.geojson')
 
+# Create a global dictionary to store GeoJSON objects for each year
+geojson_data_by_year = {}
+
+for year in all_data['year'].unique():
+    filtered_data = all_data[all_data['year'] == year]
+    merged_gdf = counties_gdf.merge(filtered_data, left_on="GEOID", right_on="fips")
+    merged_geojson = merged_gdf.to_json()
+    geojson_data_by_year[year] = json.loads(merged_geojson)
+
 
 @app.route('/api/v1.0/migration_data/<int:year>')
 def migration_data(year):
-    # Filter the preloaded data by the provided year
-    filtered_data = all_data[all_data['year'] == year]
-
-    # Merge the county geometries with the filtered data
-    merged_gdf = counties_gdf.merge(filtered_data, left_on="GEOID", right_on="fips")
-
-    # Convert the merged GeoDataFrame to GeoJSON format
-    merged_geojson = merged_gdf.to_json()
-
-    # Convert the string representation of GeoJSON to a JSON object
-    json_data = json.loads(merged_geojson)
-
-    return jsonify(json_data)
+    return jsonify(geojson_data_by_year.get(year, {}))
 
 
 if __name__ == '__main__':

@@ -107,6 +107,11 @@
 <!-- Migration View Container -->
 <div class="view-module migration-style" data-view-name="migration" style="display: none; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
 
+    <!-- Header for Migration View -->
+    <div class="migration-header" style="text-align: center; font-size: 60px; position: absolute; top: 20px; visibility: hidden;">
+        US County-to-County Migrations
+    </div>
+
     <!-- Container to hold the map -->
     <div id="mapContainer" style="width: 100vmin; height: 66vmin; position: relative; border: 8px solid rgba(0, 0, 0, 0.5); border-radius: 15px; overflow: hidden; visibility: hidden;">
         <div id="map" style="width: 100%; height: 100%; position: absolute;"></div>
@@ -124,13 +129,13 @@
             justify-content: center;
             align-items: center;
             height: 90vh;
-        }
         .net-positive {
             color: green;
         }
         .net-negative {
             color: red;
         }
+        }   
     </style>
 
     <script>
@@ -220,10 +225,12 @@
             if (!window.migrationMapInitialized) {
                 initializeMigrationMap();
                 window.migrationMapInitialized = true;
+                // Show the header when the Migration view is active
+                document.querySelector('.migration-header').style.visibility = "visible";
             }
         });
 
-        bins = [-150000, -4000, -3000, -2500, -500, 0, 500, 1000, 2000, 150000];
+        bins = [-122000, -10000, -5000, -3000, -2000, -1500, -1000, -500, -100, 0, 1000, 2000, 141000];
         const colors = bins.map((_, i) => chroma.scale('viridis')(i / (bins.length - 1)).hex());
 
         function getColorForValue(value) {
@@ -237,9 +244,6 @@
 
     </script>
 </div>
-
-
-
 
 
 
