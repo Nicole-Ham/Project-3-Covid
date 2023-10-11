@@ -28,3 +28,7 @@ Visualizations include: vaccination prevalence, hospitalizations and deaths for 
 
 ## Visualizations
 
+![LandingPage](https://github.com/Nicole-Ham/Project-3-Covid/assets/134648078/fe8b4140-4d2f-4eb1-9506-e150ee8442a7)
+![CasesVax](https://github.com/Nicole-Ham/Project-3-Covid/assets/134648078/c54502e2-6a34-4ada-86a7-ecdd981da6a8)
+
+
