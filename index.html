@@ -124,7 +124,7 @@
     </div>
 
     <!-- Textbox for Top 10 Outflow Counties -->
-    <div id="outflowCountiesBox" style="position: absolute; top: 14%; right: 3%; background-color: rgba(255, 255, 255, 0.8); border: 5px solid rgba(0, 0, 0, 0.7); padding: 10px; width: 17%; border-radius: 8px;">
+    <div id="outflowCountiesBox" style="position: absolute; top: 14%; right: 3%; background-color: rgba(255, 255, 255, 0.8); border: 4px solid rgba(0, 0, 0, 0.7); padding: 10px; width: 17%; border-radius: 8px;">
         <h5 style="text-align: center;">Greatest Out-Migration</h5>
         <ul id="outflowCountiesList">
             <!-- The list items will be populated using JavaScript -->
@@ -132,7 +132,7 @@
     </div>
 
     <!-- Textbox for Top 10 Inflow Counties -->
-    <div id="inflowCountiesBox" style="position: absolute; top: 50%; right: 3%; background-color: rgba(255, 255, 255, 0.8); border: 5px solid rgba(0, 0, 0, 0.7); padding: 10px; width: 17%; border-radius: 8px;">
+    <div id="inflowCountiesBox" style="position: absolute; top: 50%; right: 3%; background-color: rgba(255, 255, 255, 0.8); border: 4px solid rgba(0, 0, 0, 0.7); padding: 10px; width: 17%; border-radius: 8px;">
         <h5 style="text-align: center;">Greatest In-Migration</h5>
         <ul id="inflowCountiesList">
             <!-- The list items will be populated using JavaScript -->
@@ -227,6 +227,9 @@
                     }
                 }
             }).addTo(map);
+
+            updateOutflowCountiesList();
+            updateInflowCountiesList();
         }
 
 
