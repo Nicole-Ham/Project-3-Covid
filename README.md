@@ -2,7 +2,7 @@
 
 Isabel Morrison. Adriana Galindo. Jeff North. Nicole Hammack.
 
-## Requirements
+## Requirements:
 The group to tell a story using data visualizations. Here are the specific requirements:
 
 The visualization must include a Python Flask-powered API, HTML/CSS, JavaScript, and  one database (SQLite).
@@ -26,9 +26,19 @@ The final visualization should ideally include at least three views.
 Pandemic in the Digital Age: 
 Visualizations include: vaccination prevalence, hospitalizations and deaths for each county in California. Exploring connections between health and povery levels with vaccinations. Mapping the changes in movement of citizens out of the city to more rural locations during the pandemic. 
 
-## Visualizations
+## Visualizations:
 
 ![LandingPage](https://github.com/Nicole-Ham/Project-3-Covid/assets/134648078/fe8b4140-4d2f-4eb1-9506-e150ee8442a7)
 ![CasesVax](https://github.com/Nicole-Ham/Project-3-Covid/assets/134648078/c54502e2-6a34-4ada-86a7-ecdd981da6a8)
 
+
+## Data Sources: 
+
+<a href="https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data-with-Ge/n8mc-b4w4" target="_blank"> CDC Case Surveillance </a>
+
+<a href="https://data.chhs.ca.gov/dataset/vaccine-progress-dashboard" target="_blank"> California DPH Vaccine Progress </a>
+
+<a href="https://www.healthyplacesindex.org" target="_blank"> California Healthy Places Index </a>
+
+<a href="https://www.irs.gov/statistics/soi-tax-stats-migration-data-2019-2020" target="_blank"> IRS Migration Data </a>
 
