@@ -24,7 +24,8 @@ The final visualization should ideally include at least three views.
 ## Project: 
 
 Pandemic in the Digital Age: 
-Visualizations include: vaccination prevalence, hospitalizations and deaths for each county in California. Exploring connections between health and povery levels with vaccinations. Mapping the changes in movement of citizens out of the city to more rural locations during the pandemic. 
+
+Visualizations include: vaccination prevalence, hospitalizations and deaths for each county in California. Exploring connections between health and poverty levels with vaccinations. Mapping the changes in movement of citizens out of the city to more rural locations during the pandemic. 
 
 ## Visualizations:
 
