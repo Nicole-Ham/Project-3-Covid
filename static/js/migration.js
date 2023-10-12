@@ -1,4 +1,4 @@
-var map = L.map('map').setView([37.8, -96], 4);
+var map = L.map('map').setView([37.8, -96], 4.4);
 var baseLayer;
 var dataByYear = {};  // To store GeoJSON data by year
 function fetchDataForYear(year) {
@@ -155,7 +155,7 @@ function fetchDataForYear(year) {
         //     document.getElementById('percentButton').classList.remove('active');
         //     updateMapData();
         // });
-        // document.getElementById('yearSlider').addEventListener('input', updateMapYear);
+        document.getElementById('yearSlider').addEventListener('input', updateMapYear);
         // document.querySelector('[data-view="migration"]').addEventListener('click', function(event) {
         //     if (!window.migrationMapInitialized) {
         //         initializeMigrationMap();
@@ -169,3 +169,4 @@ function fetchDataForYear(year) {
         //         document.querySelector('display-toggle-container').style.visibility = "visible";
         //     }
         // });
+
