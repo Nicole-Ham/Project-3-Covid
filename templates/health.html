@@ -5,9 +5,30 @@
 
 {% block content %}
 
-health goes here
-<!-- Rest of your content here -->
 
-<script src="static/js/health.js"></script>
+<!-- <div class="well">
+    <h5>Select County:</h5>
+    <select id="selCounty"></select>
+  </div> -->
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h5 class="panel-title">Current Graph</h5>
+    </div>
+    <div id="currSettings" class="panel-body"></div>
+  </div>
+</div>
+
+
+<main id="main1" class="col-15 bg-body-secondary d-flex flex-column gap-5 main-area">
+    <center class="p-3">
+      <div id="line" style="min-height: 700px"></div>
+    </center>
+  </main>
+
+<script>
+  </script>
+  </html>
+
+  <script src="static/js/health.js"></script>
 
 {% endblock %}

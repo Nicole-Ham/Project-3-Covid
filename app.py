@@ -179,5 +179,63 @@ def api_vaccine():
 
 ## new routes for anyones should go here , please add your name to your route as a comment
 
+##########################Adrianas code##################################
+##########################Adrianas code##################################
+##########################Adrianas code##################################
+vaccines_hpi_poverty_data = Base.classes.vaccines_hpi_poverty
+
+@app.route("/api/vaccines_hpi_poverty")
+@cross_origin()
+def get_vaccines_hpi_poverty_data():
+    session = Session(engine)
+
+    results = session.query(vaccines_hpi_poverty_data.zip_code, 
+                            vaccines_hpi_poverty_data.county,
+                            vaccines_hpi_poverty_data.percent_fully_vaccinated, 
+                            vaccines_hpi_poverty_data.percent_partiall_vaccinated,
+                            vaccines_hpi_poverty_data.employed_percentile,
+                            vaccines_hpi_poverty_data.hpi_value,
+                            vaccines_hpi_poverty_data.id
+                            ).all()
+  
+    hpi_poverty_data = []
+    for zip_code, county, percent_fully_vaccinated, percent_partiall_vaccinated, employed_percentile, hpi_value, id in results:
+        
+        poverty_hpi_dict = {
+            "zip_code": zip_code,
+            "county": county,
+            "percent_fully_vaccinated": percent_fully_vaccinated,
+            "percent_partiall_vaccinated": percent_partiall_vaccinated,
+            "employed_percentile": employed_percentile,
+            "hpi_value": hpi_value
+        }
+
+        hpi_poverty_data.append(poverty_hpi_dict)
+
+    session.close()
+
+    return jsonify(hpi_poverty_data)
+
+# @app.route('/api/vaccines_hpi_poverty/<zipcode>', methods=['GET'])
+# def get_data_for_zipcode(zipcode):
+#     # Replace this section with your actual data retrieval logic from the database
+#     percentfullyvaccinated = 0.75
+#     percentpartiallyvaccinated = 0.20
+#     employedpercentile = 0.85
+#     hpivalue = 0.123
+
+#     data = {
+#         "zip_code": zipcode,
+#         "percent_fully_vaccinated": percentfullyvaccinated,
+#         "percent_partially_vaccinated": percentpartiallyvaccinated,
+#         "employed_percentile": employedpercentile,
+#         "hpi_value": hpivalue
+#     }
+
+    # return jsonify(data)
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
