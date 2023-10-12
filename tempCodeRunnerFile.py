@@ -1,1 +1,1 @@
-/api/vaccines_hpi_poverty
+/api/v1.0/migration_data/<int:year>
