@@ -7,6 +7,7 @@ import geopandas as gpd
 import pandas as pd
 import json
 
+
 # Database Setup
 engine = create_engine("sqlite:///Data/CA_COVID_data.sqlite")
 
@@ -18,28 +19,41 @@ Base.prepare(engine, reflect=True)
 app = Flask(__name__)
 CORS(app)
 
-# Preload the data
-MigrationData = Base.classes.county_migrations
+# Load the GeoJSON string from the database
+MigrationData = Base.classes.us_county_migrations
+
+print("TYPE IS:", type(MigrationData))
+
 session = Session(engine)
-all_data = pd.read_sql(session.query(MigrationData).statement, session.bind)
+record = session.query(MigrationData).first()
+geojson_string = getattr(record, "data")
 session.close()
 
-# Preload county geometries
-counties_gdf = gpd.read_file('Data/us_counties_geometry.geojson')
+# Convert the GeoJSON string to a Python dictionary
+geojson_data = json.loads(geojson_string)
 
-# Create a global dictionary to store GeoJSON objects for each year
+# Create a global dictionary to store the filtered GeoJSON objects by year
 geojson_data_by_year = {}
 
-for year in all_data['year'].unique():
-    filtered_data = all_data[all_data['year'] == year]
-    merged_gdf = counties_gdf.merge(filtered_data, left_on="GEOID", right_on="fips")
-    merged_geojson = merged_gdf.to_json()
-    geojson_data_by_year[year] = json.loads(merged_geojson)
-
+# Assuming each feature in the GeoJSON data has a 'year' property
+for feature in geojson_data['features']:
+    year = feature['properties']['year']
+    if year not in geojson_data_by_year:
+        geojson_data_by_year[year] = {
+            "type": "FeatureCollection",
+            "features": []
+        }
+    geojson_data_by_year[year]['features'].append(feature)
 
 @app.route('/api/v1.0/migration_data/<int:year>')
 def migration_data(year):
     return jsonify(geojson_data_by_year.get(year, {}))
+
+
+# @app.route('/api/v1.0/table_data', methods=['GET'])
+# def table_data():
+#     return jsonify(geojson_data)
+
 
 
 if __name__ == '__main__':
@@ -49,40 +63,3 @@ if __name__ == '__main__':
 
 
 
-
-
-
-
-
-
-
-
-# @app.route('/api/v1.0/table_data', methods=['GET'])
-# @cross_origin()
-# def table_data():
-#     # Access the reflected table class
-#     MigrationData = Base.classes.county_migrations
-
-#     # Start a session and query all the data
-#     session = Session(engine)
-#     results = session.query(MigrationData).all()
-#     session.close()
-
-#     # Convert the queried results to a list of dictionaries
-#     data_list = []
-#     for row in results:
-#         # Convert each row to a dictionary (while excluding '_sa_instance_state')
-#         data_dict = {column: getattr(row, column) for column in row.__dict__.keys() if column != '_sa_instance_state'}
-#         data_list.append(data_dict)
-
-#     return jsonify(data_list)
-
-
-
-# @app.route("/api/v1.0/tables")
-# @cross_origin(origin='*')
-# def tables():
-#     # Get a list of all table names using the 'inspect' function
-#     inspector = inspect(engine)
-#     tables = inspector.get_table_names()
-#     return jsonify(tables)

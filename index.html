@@ -223,7 +223,7 @@
             return fetch(`http://127.0.0.1:5000/api/v1.0/migration_data/${year}`)
                 .then(response => response.json());
         }
-
+        console.log(fetchDataForYear(2020))
         // Fetch data for year 2020 first
         fetchDataForYear(2020).then(data2020 => {
             dataByYear = { 2020: data2020 };
