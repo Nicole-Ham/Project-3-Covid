@@ -4,22 +4,19 @@
 
 {% block content %}
 
+
+
 <!-- Migration View Container -->
 <div class="view-module migration-style" data-view-name="migration" style="display: none; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-
-
   <!-- Header for Migration View -->
   <div class="migration-header" style="text-align: center; font-size: 60px; position: absolute; top: 20px;">
       US County-to-County Migrations
   </div>
-
   <!-- Container to hold the map -->
   <div id="mapContainer" style="width: 100vmin; height: 66vmin; position: relative; border: 7px solid rgba(0, 0, 0, 0.5); border-radius: 15px;">
       <div id="map" style="width: 100%; height: 100%; position: absolute;"></div>
       <div id="mapLegend"></div>
   </div>
-
-
   <!-- Textbox for Top 10 Outflow Counties -->
   <div id="outflowCountiesBox" style="position: absolute; top: 14%; right: -15%; background-color: rgba(255, 255, 255, 0.8); border: 4px solid rgba(0, 0, 0, 0.6); padding: 10px; width: 17%; border-radius: 8px;">
       <h5 style="text-align: center;">Greatest Out-Migration</h5>
@@ -27,7 +24,6 @@
           <!-- The list items will be populated using JavaScript -->
       </ul>
   </div>
-
   /* <!-- Textbox for Top 10 Inflow Counties --> */
   <div id="inflowCountiesBox" style="position: absolute; top: 50%; right: -15%; background-color: rgba(255, 255, 255, 0.8); border: 4px solid rgba(0, 0, 0, 0.6); padding: 10px; width: 17%; border-radius: 8px;">
       <h5 style="text-align: center;">Greatest In-Migration</h5>
@@ -35,29 +31,21 @@
           <!-- The list items will be populated using JavaScript -->
       </ul>
   </div>
-
   <!-- Toggle Buttons for Display Mode -->
   <!-- <div class="display-toggle-container">
       <span class="button-text">Show values as:</span>
-
-      
       <div class="button-container">
           <button id="percentButton" class="toggle-button active"></button>
           <span class="button-text">Percent</span>
       </div>
-  
       <div class="button-container">
           <button id="absoluteButton" class="toggle-button"></button>
           <span class="button-text">Absolute</span>
       </div>
   </div> -->
-
   <!-- Year Slider -->
   <input type="range" min="2017" max="2021" value="2020" id="yearSlider" style="width: 50%; margin-top: 20px; ">
   <label for="yearSlider" id="yearLabel">Year: 2020</label>
-
-
-  
   <style>
   .migration-style {
       position: relative;
@@ -76,7 +64,7 @@
   /* .display-toggle-container {
       position: absolute;
       left: 5%;
-      top: 20%; 
+      top: 20%;
   } */
   .button-label-group span {
       color: black;
@@ -103,9 +91,7 @@
       color: black;
       margin-left: 10px; /* Adds space between the button and text */
   } */
-
   </style>
-
 </div>
 <!-- Chroma.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
