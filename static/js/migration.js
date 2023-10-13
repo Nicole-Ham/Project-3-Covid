@@ -1,4 +1,5 @@
-var map = L.map('map').setView([37.8, -96], 4.4);
+
+var map = L.map('map').setView([37.8, -96], 4);
 var baseLayer;
 var dataByYear = {};  // To store GeoJSON data by year
 function fetchDataForYear(year) {
@@ -110,14 +111,14 @@ function fetchDataForYear(year) {
                 properties.pct_out = (properties.outflow / (properties.stayput + properties.outflow)) * 100;
             });
             // Sort by pct_out in descending order
-            yearData.sort((a, b) => b.properties.pct_out - a.properties.pct_out);
+            yearData.sort((a, b) => a.properties.net_migration - b.properties.net_migration);
             // Extract top 10
             let top10Counties = yearData.slice(0, 10);
             // Build the list content
             let content = top10Counties.map(item => {
                 let props = item.properties;
                 let netMigrationFormatted = new Intl.NumberFormat().format(props.net_migration);
-                return `<li>${props.county}, ${props.state} ${netMigrationFormatted} ${props.pct_out.toFixed(1)}%</li>`;
+                return `<li>${props.county}, ${props.state} <span style="color:${props.net_migration > 0 ? 'green' : 'red'}">${netMigrationFormatted}</span> ${props.pct_out.toFixed(2)}%</li>`;
             }).join('');
             // Update the content of outflowCountiesList
             document.getElementById('outflowCountiesList').innerHTML = content;
@@ -131,14 +132,14 @@ function fetchDataForYear(year) {
                 properties.pct_in = (properties.inflow / (properties.stayput + properties.inflow)) * 100;
             });
             // Sort by pct_in in descending order
-            yearData.sort((a, b) => b.properties.pct_in - a.properties.pct_in);
+            yearData.sort((a, b) => b.properties.net_migration - a.properties.net_migration);
             // Extract top 10
             let top10Counties = yearData.slice(0, 10);
             // Build the list content
             let content = top10Counties.map(item => {
                 let props = item.properties;
                 let netMigrationFormatted = new Intl.NumberFormat().format(props.net_migration);
-                return `<li>${props.county}, ${props.state} ${netMigrationFormatted} ${props.pct_in.toFixed(2)}%</li>`;
+                return `<li>${props.county}, ${props.state} <span style="color:${props.net_migration > 0 ? 'green' : 'red'}">${netMigrationFormatted}</span> ${props.pct_in.toFixed(2)}%</li>`;
             }).join('');
             // Update the content of inflowCountiesList
             document.getElementById('inflowCountiesList').innerHTML = content;
