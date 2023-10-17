@@ -1,5 +1,5 @@
 **/.DS_Store
-Data/CA_COVID_data.sqlite
+# Data/CA_COVID_data.sqlite
 
 # add any file that should be auto generated to this file as a single
 Data/CA_case_surv.csv
